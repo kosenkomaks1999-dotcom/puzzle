@@ -754,9 +754,10 @@ button:active {
     
     .pieces-panel-wrapper {
         padding: 5px;
-        height: 100%;
+        height: 120%;
         display: flex;
         flex-direction: column;
+        transform: translateY(-10px);
     }
     
     .pieces-panel-wrapper h3 {
