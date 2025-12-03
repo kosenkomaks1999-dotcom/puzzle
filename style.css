@@ -654,112 +654,187 @@ button:active {
 /* Адаптивность */
 @media (max-width: 1200px) {
     .game-layout {
-        flex-direction: column;
-        height: auto;
+        flex-direction: row;
+        height: calc(100vh - 120px);
+        overflow: hidden;
     }
     
     .left-container {
-        order: 1;
+        flex: 1;
+        min-width: 0;
     }
     
     .right-container {
-        order: 2;
-        width: 100%;
-        max-height: none;
+        width: 200px;
+        flex-shrink: 0;
+    }
+    
+    .pieces-panel-wrapper {
+        height: 100%;
     }
     
     .pieces-panel {
-        max-height: 250px;
+        height: calc(100% - 50px);
+        overflow-y: auto;
     }
 }
 
 @media (max-width: 768px) {
     .top-panel {
-        padding: 12px 10px;
+        padding: 8px 5px;
     }
     
     .top-panel h1 {
-        font-size: 1.3em;
-        margin-bottom: 8px;
+        font-size: 1.1em;
+        margin-bottom: 5px;
     }
     
     .controls {
-        flex-direction: column;
-        gap: 8px;
+        gap: 5px;
+        flex-wrap: wrap;
+        justify-content: center;
     }
     
     button, .file-label {
-        padding: 10px 20px;
-        font-size: 14px;
+        padding: 8px 12px;
+        font-size: 12px;
     }
     
     .difficulty {
-        padding: 6px 12px;
+        padding: 5px 10px;
+    }
+    
+    .difficulty label {
+        font-size: 11px;
     }
     
     .difficulty select {
-        font-size: 13px;
+        padding: 5px 8px;
+        font-size: 11px;
     }
     
     .game-layout {
-        padding: 10px;
-        gap: 10px;
+        padding: 5px;
+        gap: 5px;
+        height: calc(100vh - 100px);
+    }
+    
+    .left-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: auto;
+    }
+    
+    .puzzle-board {
+        max-width: 100%;
+        max-height: 100%;
+    }
+    
+    .right-container {
+        width: 150px;
     }
     
     .pieces-panel-wrapper {
-        padding: 12px;
+        padding: 8px;
     }
     
     .pieces-panel-wrapper h3 {
-        font-size: 1em;
+        font-size: 0.85em;
+        margin-bottom: 8px;
+    }
+    
+    .piece-thumbnail {
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-bottom: 5px;
     }
 }
 
 @media (max-width: 480px) {
     .top-panel h1 {
-        font-size: 1.1em;
+        font-size: 1em;
     }
     
     button, .file-label {
-        width: 100%;
-        max-width: 280px;
+        padding: 6px 10px;
+        font-size: 11px;
     }
     
-    .difficulty {
-        width: 100%;
-        max-width: 280px;
+    .right-container {
+        width: 130px;
+    }
+    
+    .pieces-panel-wrapper {
+        padding: 5px;
+    }
+    
+    .pieces-panel-wrapper h3 {
+        font-size: 0.75em;
+        margin-bottom: 5px;
     }
     
     .win-message {
-        padding: 30px 20px;
+        padding: 25px 15px;
+        width: 90%;
     }
     
     .win-message h2 {
-        font-size: 2em;
+        font-size: 1.5em;
+    }
+    
+    .win-message p {
+        font-size: 1em;
     }
     
     .win-icon {
-        font-size: 50px;
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+    
+    .win-button {
+        padding: 10px 25px;
+        font-size: 1em;
     }
     
     .cheat-modal {
-        padding: 25px 20px;
+        padding: 20px 15px;
         width: 90%;
+    }
+    
+    .cheat-modal h3 {
+        font-size: 1.5em;
     }
     
     .cheat-input {
         width: 100%;
-        font-size: 1em;
+        font-size: 0.9em;
+        padding: 12px 15px;
+    }
+    
+    .cheat-btn {
+        padding: 10px 20px;
+        font-size: 0.9em;
     }
 }
 
 /* Touch оптимизация */
 @media (hover: none) and (pointer: coarse) {
+    .piece-thumbnail {
+        cursor: grab;
+    }
+    
     .piece-thumbnail:active {
         transform: scale(0.95);
+        cursor: grabbing;
     }
     
     button:active {
         transform: translateY(0);
+    }
+    
+    /* Увеличиваем область касания */
+    .piece-thumbnail {
+        min-height: 60px;
     }
 }

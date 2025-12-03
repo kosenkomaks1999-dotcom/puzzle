@@ -226,8 +226,10 @@ class PuzzleGame {
         this.pieces = [];
 
         // Масштабируем изображение под максимальный размер доски
-        const maxWidth = 900;
-        const maxHeight = 650;
+        // Адаптивный размер в зависимости от экрана
+        const isMobile = window.innerWidth <= 768;
+        const maxWidth = isMobile ? Math.min(window.innerWidth - 160, 500) : 900;
+        const maxHeight = isMobile ? Math.min(window.innerHeight - 120, 500) : 650;
         
         let scaledWidth = this.image.width;
         let scaledHeight = this.image.height;
