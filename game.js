@@ -335,14 +335,13 @@ class PuzzleGame {
     }
 
     makePieceDraggable(pieceElement, row, col) {
+        // Desktop drag events
         pieceElement.addEventListener('dragstart', () => {
-            // Если кусочек на доске, удаляем его оттуда
             const parentCell = pieceElement.closest('.grid-cell');
             if (parentCell) {
                 parentCell.classList.remove('filled');
             }
             
-            // Запоминаем откуда взяли кусочек
             const fromBoard = !!parentCell;
             this.draggedPiece = { element: pieceElement, row, col, fromBoard };
             pieceElement.classList.add('dragging');
@@ -351,13 +350,82 @@ class PuzzleGame {
         pieceElement.addEventListener('dragend', () => {
             pieceElement.classList.remove('dragging');
             
-            // Если кусочек не был перемещен, возвращаем его обратно
             if (this.draggedPiece && this.draggedPiece.element === pieceElement) {
                 const parentCell = pieceElement.closest('.grid-cell');
                 if (parentCell) {
                     parentCell.classList.add('filled');
                 }
             }
+        });
+
+        // Mobile touch events
+        let touchStartX, touchStartY;
+        let clone = null;
+
+        pieceElement.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            
+            const touch = e.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+            
+            const parentCell = pieceElement.closest('.grid-cell');
+            if (parentCell) {
+                parentCell.classList.remove('filled');
+            }
+            
+            const fromBoard = !!parentCell;
+            this.draggedPiece = { element: pieceElement, row, col, fromBoard };
+            
+            // Создаем клон для визуального перетаскивания
+            clone = pieceElement.cloneNode(true);
+            clone.style.position = 'fixed';
+            clone.style.zIndex = '10000';
+            clone.style.opacity = '0.8';
+            clone.style.pointerEvents = 'none';
+            clone.style.width = pieceElement.offsetWidth + 'px';
+            clone.style.height = pieceElement.offsetHeight + 'px';
+            clone.style.left = touch.clientX - pieceElement.offsetWidth / 2 + 'px';
+            clone.style.top = touch.clientY - pieceElement.offsetHeight / 2 + 'px';
+            document.body.appendChild(clone);
+            
+            pieceElement.style.opacity = '0.3';
+        });
+
+        pieceElement.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            
+            if (clone) {
+                const touch = e.touches[0];
+                clone.style.left = touch.clientX - clone.offsetWidth / 2 + 'px';
+                clone.style.top = touch.clientY - clone.offsetHeight / 2 + 'px';
+            }
+        });
+
+        pieceElement.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            
+            if (clone) {
+                const touch = e.changedTouches[0];
+                const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
+                const targetCell = targetElement?.closest('.grid-cell');
+                
+                if (targetCell) {
+                    this.onDrop(e, targetCell);
+                } else {
+                    // Возвращаем на место
+                    const parentCell = pieceElement.closest('.grid-cell');
+                    if (parentCell) {
+                        parentCell.classList.add('filled');
+                    }
+                }
+                
+                clone.remove();
+                clone = null;
+            }
+            
+            pieceElement.style.opacity = '1';
+            this.draggedPiece = null;
         });
     }
 

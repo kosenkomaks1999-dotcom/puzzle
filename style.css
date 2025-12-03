@@ -715,15 +715,17 @@ button:active {
     
     .game-layout {
         padding: 5px;
-        gap: 5px;
+        gap: 8px;
         height: calc(100vh - 100px);
+        flex-direction: column;
     }
     
     .left-container {
         display: flex;
         align-items: center;
         justify-content: center;
-        overflow: auto;
+        flex: 1;
+        min-height: 0;
     }
     
     .puzzle-board {
@@ -732,22 +734,36 @@ button:active {
     }
     
     .right-container {
-        width: 150px;
+        width: 100%;
+        height: 120px;
+        flex-shrink: 0;
     }
     
     .pieces-panel-wrapper {
         padding: 8px;
+        height: 100%;
     }
     
     .pieces-panel-wrapper h3 {
         font-size: 0.85em;
-        margin-bottom: 8px;
+        margin-bottom: 5px;
+    }
+    
+    .pieces-panel {
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        height: calc(100% - 30px);
+        gap: 8px;
+        padding-bottom: 5px;
     }
     
     .piece-thumbnail {
-        flex: 0 0 100%;
-        max-width: 100%;
-        margin-bottom: 5px;
+        flex: 0 0 auto;
+        width: 90px;
+        height: 90px;
+        max-width: none;
+        margin-bottom: 0;
     }
 }
 
@@ -762,7 +778,7 @@ button:active {
     }
     
     .right-container {
-        width: 130px;
+        height: 100px;
     }
     
     .pieces-panel-wrapper {
@@ -771,7 +787,12 @@ button:active {
     
     .pieces-panel-wrapper h3 {
         font-size: 0.75em;
-        margin-bottom: 5px;
+        margin-bottom: 3px;
+    }
+    
+    .piece-thumbnail {
+        width: 75px;
+        height: 75px;
     }
     
     .win-message {
