@@ -236,8 +236,8 @@ class PuzzleGame {
         // Масштабируем изображение под максимальный размер доски
         // Адаптивный размер в зависимости от экрана
         const isMobile = window.innerWidth <= 768;
-        const maxWidth = isMobile ? Math.min(window.innerWidth - 20, 600) : 900;
-        const maxHeight = isMobile ? Math.min(window.innerHeight - 250, 600) : 650;
+        const maxWidth = isMobile ? window.innerWidth - 10 : 900;
+        const maxHeight = isMobile ? window.innerHeight - 190 : 650;
         
         let scaledWidth = this.image.width;
         let scaledHeight = this.image.height;
@@ -277,6 +277,72 @@ class PuzzleGame {
         allPieces.forEach(piece => {
             this.panelElement.appendChild(piece.element);
         });
+        
+        // Инициализируем навигацию для мобильных
+        this.initMobileNavigation();
+    }
+
+    initMobileNavigation() {
+        if (window.innerWidth > 768) return;
+        
+        const wrapper = this.panelElement.parentElement;
+        
+        // Удаляем старые кнопки если есть
+        const oldButtons = wrapper.querySelectorAll('.nav-button');
+        oldButtons.forEach(btn => btn.remove());
+        
+        // Создаем контейнер для панели
+        let container = wrapper.querySelector('.pieces-panel-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.className = 'pieces-panel-container';
+            wrapper.appendChild(container);
+            container.appendChild(this.panelElement);
+        }
+        
+        // Создаем кнопки навигации
+        const prevBtn = document.createElement('div');
+        prevBtn.className = 'nav-button prev';
+        prevBtn.innerHTML = '◀';
+        
+        const nextBtn = document.createElement('div');
+        nextBtn.className = 'nav-button next';
+        nextBtn.innerHTML = '▶';
+        
+        container.appendChild(prevBtn);
+        container.appendChild(nextBtn);
+        
+        let currentIndex = 0;
+        const visibleCount = Math.floor((window.innerWidth - 80) / 86); // 80px для кнопок, 86px на кусочек
+        const totalPieces = this.panelElement.children.length;
+        const maxIndex = Math.max(0, totalPieces - visibleCount);
+        
+        const updateButtons = () => {
+            prevBtn.classList.toggle('disabled', currentIndex === 0);
+            nextBtn.classList.toggle('disabled', currentIndex >= maxIndex);
+        };
+        
+        const updatePosition = () => {
+            const offset = -currentIndex * 86;
+            this.panelElement.style.transform = `translateX(${offset}px)`;
+            updateButtons();
+        };
+        
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updatePosition();
+            }
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < maxIndex) {
+                currentIndex++;
+                updatePosition();
+            }
+        });
+        
+        updateButtons();
     }
 
     createGrid() {

@@ -680,43 +680,47 @@ button:active {
 }
 
 @media (max-width: 768px) {
+    body {
+        overflow: hidden;
+    }
+    
     .top-panel {
-        padding: 8px 5px;
+        padding: 5px;
     }
     
     .top-panel h1 {
-        font-size: 1.1em;
-        margin-bottom: 5px;
+        font-size: 1em;
+        margin-bottom: 3px;
     }
     
     .controls {
-        gap: 5px;
+        gap: 4px;
         flex-wrap: wrap;
         justify-content: center;
     }
     
     button, .file-label {
-        padding: 8px 12px;
-        font-size: 12px;
+        padding: 6px 10px;
+        font-size: 11px;
     }
     
     .difficulty {
-        padding: 5px 10px;
+        padding: 4px 8px;
     }
     
     .difficulty label {
-        font-size: 11px;
+        font-size: 10px;
     }
     
     .difficulty select {
-        padding: 5px 8px;
-        font-size: 11px;
+        padding: 4px 6px;
+        font-size: 10px;
     }
     
     .game-layout {
-        padding: 5px;
-        gap: 8px;
-        height: calc(100vh - 100px);
+        padding: 0;
+        gap: 0;
+        height: calc(100vh - 70px);
         flex-direction: column;
     }
     
@@ -727,6 +731,7 @@ button:active {
         flex: 1;
         min-height: 0;
         padding: 5px;
+        background: rgba(0, 0, 0, 0.1);
     }
     
     .puzzle-board {
@@ -734,116 +739,155 @@ button:active {
         height: 100%;
         max-width: 100%;
         max-height: 100%;
-        object-fit: contain;
     }
     
     .right-container {
         width: 100%;
-        height: 130px;
+        height: 110px;
         flex-shrink: 0;
-        overflow: hidden;
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .pieces-panel-wrapper {
-        padding: 8px;
+        padding: 5px;
         height: 100%;
+        display: flex;
+        flex-direction: column;
     }
     
     .pieces-panel-wrapper h3 {
-        font-size: 0.85em;
-        margin-bottom: 5px;
+        display: none;
+    }
+    
+    .pieces-panel-container {
+        position: relative;
+        flex: 1;
+        overflow: hidden;
     }
     
     .pieces-panel {
+        display: flex;
         flex-direction: row;
-        overflow-x: auto;
-        overflow-y: hidden;
-        height: calc(100% - 30px);
-        gap: 8px;
-        padding-bottom: 5px;
-        -webkit-overflow-scrolling: touch;
-        scroll-behavior: smooth;
+        overflow: hidden;
+        height: 100%;
+        gap: 6px;
+        padding: 0 40px;
+        align-items: center;
+        transition: transform 0.3s ease;
     }
     
     .piece-thumbnail {
         flex: 0 0 auto;
-        width: 90px;
-        height: 90px;
+        width: 80px;
+        height: 80px;
         max-width: none;
         margin-bottom: 0;
         touch-action: none;
+    }
+    
+    .nav-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 35px;
+        height: 35px;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+        font-size: 18px;
+        color: white;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-button:active {
+        background: rgba(255, 255, 255, 0.4);
+        transform: translateY(-50%) scale(0.95);
+    }
+    
+    .nav-button.disabled {
+        opacity: 0.3;
+        pointer-events: none;
+    }
+    
+    .nav-button.prev {
+        left: 5px;
+    }
+    
+    .nav-button.next {
+        right: 5px;
     }
 }
 
 @media (max-width: 480px) {
     .top-panel h1 {
-        font-size: 1em;
+        font-size: 0.9em;
     }
     
     button, .file-label {
-        padding: 6px 10px;
-        font-size: 11px;
-    }
-    
-    .right-container {
-        height: 100px;
-    }
-    
-    .pieces-panel-wrapper {
-        padding: 5px;
-    }
-    
-    .pieces-panel-wrapper h3 {
-        font-size: 0.75em;
-        margin-bottom: 3px;
+        padding: 5px 8px;
+        font-size: 10px;
     }
     
     .piece-thumbnail {
-        width: 75px;
-        height: 75px;
+        width: 70px;
+        height: 70px;
+    }
+    
+    .nav-button {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
     }
     
     .win-message {
-        padding: 25px 15px;
-        width: 90%;
-    }
-    
-    .win-message h2 {
-        font-size: 1.5em;
-    }
-    
-    .win-message p {
-        font-size: 1em;
-    }
-    
-    .win-icon {
-        font-size: 40px;
-        margin-bottom: 10px;
-    }
-    
-    .win-button {
-        padding: 10px 25px;
-        font-size: 1em;
-    }
-    
-    .cheat-modal {
         padding: 20px 15px;
         width: 90%;
     }
     
+    .win-message h2 {
+        font-size: 1.3em;
+    }
+    
+    .win-message p {
+        font-size: 0.9em;
+    }
+    
+    .win-icon {
+        font-size: 35px;
+        margin-bottom: 8px;
+    }
+    
+    .win-button {
+        padding: 8px 20px;
+        font-size: 0.9em;
+    }
+    
+    .cheat-modal {
+        padding: 15px 10px;
+        width: 90%;
+    }
+    
     .cheat-modal h3 {
-        font-size: 1.5em;
+        font-size: 1.3em;
     }
     
     .cheat-input {
         width: 100%;
-        font-size: 0.9em;
-        padding: 12px 15px;
+        font-size: 0.85em;
+        padding: 10px 12px;
     }
     
     .cheat-btn {
-        padding: 10px 20px;
-        font-size: 0.9em;
+        padding: 8px 16px;
+        font-size: 0.85em;
     }
 }
 
