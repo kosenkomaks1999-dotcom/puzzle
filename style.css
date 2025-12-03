@@ -744,11 +744,12 @@ button:active {
     
     .right-container {
         width: 100%;
-        height: 90px;
+        height: 110px;
         flex-shrink: 0;
         background: rgba(0, 0, 0, 0.3);
         backdrop-filter: blur(20px);
         border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margi-top: -15px;
     }
     
     .pieces-panel-wrapper {
