@@ -230,6 +230,11 @@ class PuzzleGame {
         if (!this.image) return;
 
         this.boardElement.innerHTML = '';
+        
+        // Сохраняем контейнер с кнопками если он есть
+        const wrapper = this.panelElement.parentElement;
+        const container = wrapper.querySelector('.pieces-panel-container');
+        
         this.panelElement.innerHTML = '';
         this.pieces = [];
 
@@ -237,7 +242,7 @@ class PuzzleGame {
         // Адаптивный размер в зависимости от экрана
         const isMobile = window.innerWidth <= 768;
         const maxWidth = isMobile ? window.innerWidth - 10 : 900;
-        const maxHeight = isMobile ? window.innerHeight - 190 : 650;
+        const maxHeight = isMobile ? window.innerHeight - 180 : 650;
         
         let scaledWidth = this.image.width;
         let scaledHeight = this.image.height;
@@ -287,18 +292,21 @@ class PuzzleGame {
         
         const wrapper = this.panelElement.parentElement;
         
-        // Удаляем старые кнопки если есть
-        const oldButtons = wrapper.querySelectorAll('.nav-button');
-        oldButtons.forEach(btn => btn.remove());
-        
-        // Создаем контейнер для панели
+        // Создаем контейнер для панели если его нет
         let container = wrapper.querySelector('.pieces-panel-container');
         if (!container) {
             container = document.createElement('div');
             container.className = 'pieces-panel-container';
+            
+            // Переносим панель в контейнер
+            const panel = this.panelElement;
             wrapper.appendChild(container);
-            container.appendChild(this.panelElement);
+            container.appendChild(panel);
         }
+        
+        // Удаляем старые кнопки
+        const oldButtons = container.querySelectorAll('.nav-button');
+        oldButtons.forEach(btn => btn.remove());
         
         // Создаем кнопки навигации
         const prevBtn = document.createElement('div');
@@ -313,7 +321,9 @@ class PuzzleGame {
         container.appendChild(nextBtn);
         
         let currentIndex = 0;
-        const visibleCount = Math.floor((window.innerWidth - 80) / 86); // 80px для кнопок, 86px на кусочек
+        const pieceWidth = 80 + 6; // ширина кусочка + gap
+        const visibleWidth = window.innerWidth - 80; // минус кнопки
+        const visibleCount = Math.floor(visibleWidth / pieceWidth);
         const totalPieces = this.panelElement.children.length;
         const maxIndex = Math.max(0, totalPieces - visibleCount);
         
@@ -323,7 +333,7 @@ class PuzzleGame {
         };
         
         const updatePosition = () => {
-            const offset = -currentIndex * 86;
+            const offset = -currentIndex * pieceWidth;
             this.panelElement.style.transform = `translateX(${offset}px)`;
             updateButtons();
         };
