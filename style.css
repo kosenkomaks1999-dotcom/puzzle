@@ -718,7 +718,7 @@ button:active {
     .game-layout {
         padding: 0;
         gap: 0;
-        height: calc(100dvh - 55px); /* Уменьшено с 70px на 55px для поднятия всей композиции */
+        height: calc(100dvh - 70px);
         flex-direction: column;
         overflow: hidden;
     }
@@ -742,14 +742,13 @@ button:active {
     
     .right-container {
         width: 100%;
-        height: 105px; /* Уменьшено с 110px на 105px */
+        height: 110px;
         flex-shrink: 0;
         background: rgba(0, 0, 0, 0.3);
         backdrop-filter: blur(20px);
         border-top: 1px solid rgba(255, 255, 255, 0.1);
-        margin-top: -10px; /* Поднимаем контейнер на 10px вверх */
-        position: relative;
-        z-index: 10;
+        /* ЕДИНСТВЕННОЕ ИЗМЕНЕНИЕ: ПОДНИМАЕМ КОНТЕЙНЕР */
+        margin-top: -10px;
     }
     
     .pieces-panel-wrapper {
@@ -757,7 +756,6 @@ button:active {
         height: 100%;
         display: flex;
         flex-direction: column;
-        transform: translateY(-5px); /* Небольшой дополнительный подъем содержимого */
     }
     
     .pieces-panel-wrapper h3 {
@@ -785,8 +783,8 @@ button:active {
     
     .piece-thumbnail {
         flex: 0 0 auto;
-        width: 75px; /* Уменьшено с 80px на 75px */
-        height: 75px; /* Уменьшено с 80px на 75px */
+        width: 80px;
+        height: 80px;
         max-width: none;
         margin-bottom: 0;
         touch-action: none;
@@ -844,11 +842,6 @@ button:active {
     .piece-thumbnail {
         width: 70px;
         height: 70px;
-    }
-    
-    .right-container {
-        height: 100px; /* Дополнительное уменьшение для очень маленьких экранов */
-        margin-top: -12px; /* Больший подъем для маленьких экранов */
     }
     
     .nav-button {
