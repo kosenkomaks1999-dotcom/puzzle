@@ -723,6 +723,7 @@ button:active {
         height: calc(100dvh - 70px);
         flex-direction: column;
         overflow: hidden;
+        padding-bottom: 15px;
     }
     
     .left-container {
@@ -790,6 +791,7 @@ button:active {
         max-width: none;
         margin-bottom: 0;
         touch-action: none;
+        margin-top: -15px;
     }
     
     .nav-button {
