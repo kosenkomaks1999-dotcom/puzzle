@@ -742,23 +742,23 @@ button:active {
     
     .right-container {
         width: 100%;
-        height: 140px; /* УВЕЛИЧИВАЕМ высоту для пазлов */
+        height: 140px; /* Увеличиваем высоту для панели */
         flex-shrink: 0;
         background: rgba(0, 0, 0, 0.3);
         backdrop-filter: blur(20px);
         border-top: 1px solid rgba(255, 255, 255, 0.1);
-        /* ПОДНИМАЕМ весь контейнер вверх */
-        margin-top: -30px;
+        /* Поднимаем панель выше */
+        margin-top: -40px;
         position: relative;
         z-index: 10;
     }
     
     .pieces-panel-wrapper {
-        padding: 5px;
+        padding: 10px; /* Увеличиваем отступы */
         height: 100%;
         display: flex;
         flex-direction: column;
-        /* Выравниваем содержимое по центру вертикально */
+        /* Центрируем содержимое */
         justify-content: center;
     }
     
@@ -766,77 +766,36 @@ button:active {
         display: none;
     }
     
+    /* Убираем контейнер для навигации */
     .pieces-panel-container {
-        position: relative;
-        flex: 1;
-        overflow: hidden;
-        /* Центрируем содержимое */
-        display: flex;
-        align-items: center;
+        display: none;
     }
     
     .pieces-panel {
         display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        overflow: hidden;
-        height: auto; /* Меняем на auto */
-        gap: 6px;
-        padding: 0 40px;
+        flex-wrap: wrap;
+        justify-content: center; /* Центрируем пазлы */
+        gap: 8px; /* Уменьшаем отступы */
+        padding: 0 10px; /* Уменьшаем боковые отступы */
         align-items: center;
-        transition: transform 0.3s ease;
-        width: max-content;
-        /* Центрируем пазлы */
-        margin: 0 auto;
+        height: 100%;
+        overflow: visible; /* Убираем скролл */
+        width: 100%;
     }
     
     .piece-thumbnail {
         flex: 0 0 auto;
-        width: 80px;
-        height: 80px;
+        /* Автоматический размер в зависимости от количества пазлов */
+        width: 60px; /* Базовый размер */
+        height: 60px; /* Базовый размер */
         max-width: none;
         margin-bottom: 0;
         touch-action: none;
-        /* Убираем любые трансформации */
-        transform: none;
     }
     
+    /* Убираем навигационные кнопки */
     .nav-button {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 35px;
-        height: 35px;
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        z-index: 10;
-        font-size: 18px;
-        color: white;
-        transition: all 0.3s ease;
-    }
-    
-    .nav-button:active {
-        background: rgba(255, 255, 255, 0.4);
-        transform: translateY(-50%) scale(0.95);
-    }
-    
-    .nav-button.disabled {
-        opacity: 0.3;
-        pointer-events: none;
-    }
-    
-    .nav-button.prev {
-        left: 5px;
-    }
-    
-    .nav-button.next {
-        right: 5px;
+        display: none;
     }
 }
 
@@ -850,20 +809,20 @@ button:active {
         font-size: 10px;
     }
     
-    .piece-thumbnail {
-        width: 70px;
-        height: 70px;
-    }
-    
     .right-container {
-        height: 120px; /* Немного меньше для маленьких экранов */
-        margin-top: -25px;
+        height: 130px; /* Немного меньше для очень маленьких экранов */
+        margin-top: -35px; /* Меньший подъем */
     }
     
-    .nav-button {
-        width: 30px;
-        height: 30px;
-        font-size: 16px;
+    .piece-thumbnail {
+        /* Уменьшаем пазлы для очень маленьких экранов */
+        width: 55px;
+        height: 55px;
+    }
+    
+    .pieces-panel {
+        gap: 6px; /* Еще меньше отступы */
+        padding: 0 5px;
     }
     
     .win-message {
@@ -907,6 +866,22 @@ button:active {
     .cheat-btn {
         padding: 8px 16px;
         font-size: 0.85em;
+    }
+}
+
+/* Адаптация для большего количества пазлов */
+@media (max-width: 768px) and (min-width: 481px) {
+    /* Для средних экранов при большом количестве пазлов */
+    .pieces-panel {
+        gap: 6px; /* Уменьшаем отступы */
+    }
+    
+    .piece-thumbnail {
+        /* Автоматическая адаптация размера */
+        width: calc((100vw - 100px) / 8); /* Примерно 8 пазлов в строке */
+        height: calc((100vw - 100px) / 8);
+        min-width: 50px; /* Минимальный размер */
+        min-height: 50px;
     }
 }
 
