@@ -742,15 +742,15 @@ button:active {
     
     .right-container {
         width: 100%;
-        height: 110px;
+        height: 140px; /* УВЕЛИЧИВАЕМ высоту для пазлов */
         flex-shrink: 0;
         background: rgba(0, 0, 0, 0.3);
         backdrop-filter: blur(20px);
         border-top: 1px solid rgba(255, 255, 255, 0.1);
-        /* КОРРЕКТНЫЙ ПОДЪЕМ: */
+        /* ПОДНИМАЕМ весь контейнер вверх */
+        margin-top: -30px;
         position: relative;
-        top: -20px; /* ПОДНИМАЕМ НА 20px ВВЕРХ */
-        margin-bottom: -20px; /* КОМПЕНСИРУЕМ ОТСТУП СНИЗУ */
+        z-index: 10;
     }
     
     .pieces-panel-wrapper {
@@ -758,6 +758,8 @@ button:active {
         height: 100%;
         display: flex;
         flex-direction: column;
+        /* Выравниваем содержимое по центру вертикально */
+        justify-content: center;
     }
     
     .pieces-panel-wrapper h3 {
@@ -768,6 +770,9 @@ button:active {
         position: relative;
         flex: 1;
         overflow: hidden;
+        /* Центрируем содержимое */
+        display: flex;
+        align-items: center;
     }
     
     .pieces-panel {
@@ -775,12 +780,14 @@ button:active {
         flex-direction: row;
         flex-wrap: nowrap;
         overflow: hidden;
-        height: 100%;
+        height: auto; /* Меняем на auto */
         gap: 6px;
         padding: 0 40px;
         align-items: center;
         transition: transform 0.3s ease;
         width: max-content;
+        /* Центрируем пазлы */
+        margin: 0 auto;
     }
     
     .piece-thumbnail {
@@ -790,6 +797,8 @@ button:active {
         max-width: none;
         margin-bottom: 0;
         touch-action: none;
+        /* Убираем любые трансформации */
+        transform: none;
     }
     
     .nav-button {
@@ -847,8 +856,8 @@ button:active {
     }
     
     .right-container {
-        top: -15px; /* Меньший подъем для маленьких экранов */
-        margin-bottom: -15px;
+        height: 120px; /* Немного меньше для маленьких экранов */
+        margin-top: -25px;
     }
     
     .nav-button {
