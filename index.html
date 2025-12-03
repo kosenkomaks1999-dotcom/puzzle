@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Релакс Пазлы</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="top-panel">
+        <div class="top-panel-content">
+            <h1>🧩 Релакс Пазлы</h1>
+            <div class="controls">
+                <label for="imageUpload" class="file-label">
+                    📁 Выбрать изображение
+                    <input type="file" id="imageUpload" accept="image/*">
+                </label>
+                <button id="newGame">🔄 Новая игра</button>
+                <button id="previewBtn">👁️ Предпросмотр</button>
+                <button id="secretBtn" class="secret-btn">🎮</button>
+                <div class="difficulty">
+                    <label>Сложность:</label>
+                    <select id="difficulty">
+                        <option value="2x3">Легко (2×3)</option>
+                        <option value="3x4" selected>Средне (3×4)</option>
+                        <option value="4x5">Сложно (4×5)</option>
+                        <option value="5x6">Эксперт (5×6)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="game-layout">
+        <div class="left-container">
+            <div class="puzzle-board" id="puzzleBoard"></div>
+        </div>
+        
+        <div class="right-container">
+            <div class="pieces-panel-wrapper">
+                <h3>Кусочки пазла</h3>
+                <div class="pieces-panel" id="piecesPanel"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
