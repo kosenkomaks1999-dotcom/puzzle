@@ -24,6 +24,14 @@ class PuzzleGame {
         this.panelElement.addEventListener('dragover', (e) => e.preventDefault());
         this.panelElement.addEventListener('drop', (e) => this.onDropToPanel(e));
         
+        // Разрешаем скролл панели на мобильных
+        this.panelElement.addEventListener('touchstart', (e) => {
+            // Разрешаем скролл если касание не на кусочке
+            if (!e.target.closest('.piece-thumbnail')) {
+                e.stopPropagation();
+            }
+        }, { passive: true });
+        
         this.loadDefaultImage();
     }
 
@@ -228,8 +236,8 @@ class PuzzleGame {
         // Масштабируем изображение под максимальный размер доски
         // Адаптивный размер в зависимости от экрана
         const isMobile = window.innerWidth <= 768;
-        const maxWidth = isMobile ? Math.min(window.innerWidth - 160, 500) : 900;
-        const maxHeight = isMobile ? Math.min(window.innerHeight - 120, 500) : 650;
+        const maxWidth = isMobile ? Math.min(window.innerWidth - 20, 600) : 900;
+        const maxHeight = isMobile ? Math.min(window.innerHeight - 250, 600) : 650;
         
         let scaledWidth = this.image.width;
         let scaledHeight = this.image.height;
@@ -359,15 +367,21 @@ class PuzzleGame {
         });
 
         // Mobile touch events
-        let touchStartX, touchStartY;
         let clone = null;
+        let isDragging = false;
 
         pieceElement.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            
             const touch = e.touches[0];
-            touchStartX = touch.clientX;
-            touchStartY = touch.clientY;
+            const rect = pieceElement.getBoundingClientRect();
+            
+            // Проверяем что касание именно на кусочке
+            if (touch.clientX < rect.left || touch.clientX > rect.right ||
+                touch.clientY < rect.top || touch.clientY > rect.bottom) {
+                return;
+            }
+            
+            isDragging = true;
+            e.preventDefault();
             
             const parentCell = pieceElement.closest('.grid-cell');
             if (parentCell) {
@@ -377,32 +391,38 @@ class PuzzleGame {
             const fromBoard = !!parentCell;
             this.draggedPiece = { element: pieceElement, row, col, fromBoard };
             
-            // Создаем клон для визуального перетаскивания
+            // Создаем клон сразу под пальцем
             clone = pieceElement.cloneNode(true);
             clone.style.position = 'fixed';
             clone.style.zIndex = '10000';
-            clone.style.opacity = '0.8';
+            clone.style.opacity = '0.9';
             clone.style.pointerEvents = 'none';
             clone.style.width = pieceElement.offsetWidth + 'px';
             clone.style.height = pieceElement.offsetHeight + 'px';
-            clone.style.left = touch.clientX - pieceElement.offsetWidth / 2 + 'px';
-            clone.style.top = touch.clientY - pieceElement.offsetHeight / 2 + 'px';
+            clone.style.left = (touch.clientX - pieceElement.offsetWidth / 2) + 'px';
+            clone.style.top = (touch.clientY - pieceElement.offsetHeight / 2) + 'px';
+            clone.style.transform = 'scale(1.1)';
+            clone.style.transition = 'none';
             document.body.appendChild(clone);
             
             pieceElement.style.opacity = '0.3';
-        });
+        }, { passive: false });
 
         pieceElement.addEventListener('touchmove', (e) => {
-            e.preventDefault();
+            if (!isDragging || !clone) return;
             
-            if (clone) {
-                const touch = e.touches[0];
-                clone.style.left = touch.clientX - clone.offsetWidth / 2 + 'px';
-                clone.style.top = touch.clientY - clone.offsetHeight / 2 + 'px';
-            }
-        });
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const touch = e.touches[0];
+            clone.style.left = (touch.clientX - clone.offsetWidth / 2) + 'px';
+            clone.style.top = (touch.clientY - clone.offsetHeight / 2) + 'px';
+        }, { passive: false });
 
         pieceElement.addEventListener('touchend', (e) => {
+            if (!isDragging) return;
+            
+            isDragging = false;
             e.preventDefault();
             
             if (clone) {
@@ -413,7 +433,6 @@ class PuzzleGame {
                 if (targetCell) {
                     this.onDrop(e, targetCell);
                 } else {
-                    // Возвращаем на место
                     const parentCell = pieceElement.closest('.grid-cell');
                     if (parentCell) {
                         parentCell.classList.add('filled');
@@ -426,7 +445,7 @@ class PuzzleGame {
             
             pieceElement.style.opacity = '1';
             this.draggedPiece = null;
-        });
+        }, { passive: false });
     }
 
     onDrop(event, cell) {
