@@ -718,7 +718,7 @@ button:active {
     .game-layout {
         padding: 0;
         gap: 0;
-        height: calc(100dvh - 50px); /* Уменьшено для поднятия всей композиции */
+        height: calc(100dvh - 70px);
         flex-direction: column;
         overflow: hidden;
     }
@@ -747,10 +747,10 @@ button:active {
         background: rgba(0, 0, 0, 0.3);
         backdrop-filter: blur(20px);
         border-top: 1px solid rgba(255, 255, 255, 0.1);
-        /* УСИЛЕННЫЙ ПОДЪЕМ: */
-        margin-top: -25px;
+        /* КОРРЕКТНЫЙ ПОДЪЕМ: */
         position: relative;
-        z-index: 10;
+        top: -20px; /* ПОДНИМАЕМ НА 20px ВВЕРХ */
+        margin-bottom: -20px; /* КОМПЕНСИРУЕМ ОТСТУП СНИЗУ */
     }
     
     .pieces-panel-wrapper {
@@ -758,8 +758,6 @@ button:active {
         height: 100%;
         display: flex;
         flex-direction: column;
-        /* Дополнительный подъем содержимого: */
-        transform: translateY(-10px);
     }
     
     .pieces-panel-wrapper h3 {
@@ -783,8 +781,6 @@ button:active {
         align-items: center;
         transition: transform 0.3s ease;
         width: max-content;
-        /* Поднимаем сами пазлы: */
-        transform: translateY(-5px);
     }
     
     .piece-thumbnail {
@@ -851,12 +847,8 @@ button:active {
     }
     
     .right-container {
-        height: 100px;
-        margin-top: -20px; /* Меньший подъем для очень маленьких экранов */
-    }
-    
-    .pieces-panel-wrapper {
-        transform: translateY(-8px);
+        top: -15px; /* Меньший подъем для маленьких экранов */
+        margin-bottom: -15px;
     }
     
     .nav-button {
